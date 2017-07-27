@@ -1,0 +1,27 @@
+{
+  "name": "citibike-monitor",
+  "version": "0.0.1",
+  "description": "Monitor the status of CitiBike (NYC bike share) stations near you",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://mnkhouri@github.com/mnkhouri/citibike-monitor.git"
+  },
+  "keywords": [
+    "CitiBike"
+  ],
+  "author": "Marc Khouri <marc@khouri.ca>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mnkhouri/citibike-monitor/issues"
+  },
+  "homepage": "https://github.com/mnkhouri/citibike-monitor#readme",
+  "dependencies": {
+    "electron": "^1.6.11",
+    "gbfs-client": "^0.6.0"
+  }
+}
