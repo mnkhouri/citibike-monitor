@@ -7,7 +7,7 @@
     <title>CitiBike Monitor</title>
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="./vendor/bootstrap-3.3.7.css">
+    <link rel="stylesheet" href="./vendor/bootstrap-3.7.7.css">
     <link rel="stylesheet" href="./styles.css">
 
     <!-- Scripts -->
@@ -18,27 +18,19 @@
 
   <body>
     <h1>Station Status</h1>
-    <div id="container" class="container-fluid">
 
-      <!-- Station Info Row -->
-      <div class="row station-info">
-        <div class="col-xs-12 station">
-          <span id="station-name" class="station-name">Loading station name...</span>
-          <br>
-          Bikes available:
-          <span id="station-bikes-available" class="station-bikes-available">Loading...</span>
-        </div>
+    <form>
+      <select class="form-control" id="add-a-station">
+        <option>Loading stations...</option>
+      </select>
+    </form>
 
-        <!--
-        <div class="col-xs-12 station">
-          <span id="station-name" class="station-name">Loading station name...</span>
-          <br>
-          Bikes available:
-          <span id="station-bikes-available" class="station-bikes-available">Loading...</span>
-        </div>
-        -->
+    <br>
+
+    <div id="station-container" class="container-fluid">
+      <div id="station-row" class="row">
+        <!-- stations will be dynamically added in here -->
       </div>
-
     </div>
   </body>
 </html>
