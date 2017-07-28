@@ -17,17 +17,26 @@
   </head>
 
   <body>
+    <h1>Station Status</h1>
     <div id="container" class="container-fluid">
 
-      <!-- Station Name Row -->
-      <div class="row station">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
-          <h1>Station Status</h1>
-          <h2>
-            <span id="station-name" class="station"></span>
-            <span id="station-bikes-available" class="station"></span>
-          </h2>
+      <!-- Station Info Row -->
+      <div class="row station-info">
+        <div class="col-xs-12 station">
+          <span id="station-name" class="station-name">Loading station name...</span>
+          <br>
+          Bikes available:
+          <span id="station-bikes-available" class="station-bikes-available">Loading...</span>
         </div>
+
+        <!--
+        <div class="col-xs-12 station">
+          <span id="station-name" class="station-name">Loading station name...</span>
+          <br>
+          Bikes available:
+          <span id="station-bikes-available" class="station-bikes-available">Loading...</span>
+        </div>
+        -->
       </div>
 
     </div>
