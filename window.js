@@ -49,9 +49,10 @@ $(function () {
   function refreshAllStationStatus() {
     for (let stationId of activeStations) {
       refreshStationStatus(stationId);
+      $('#last-update').text(`updated ${new Date().toLocaleTimeString()}`);
     }
-    $('#last-update').text(new Date().toLocaleTimeString());
   }
+  $('#last-update').click(refreshAllStationStatus);
 
   // Refresh stations every 10s
   setInterval(refreshAllStationStatus, 10000);
@@ -123,7 +124,8 @@ $(function () {
     })
 
     // Get the station status
-    refreshStationStatus(stationId);
+    //refreshStationStatus(stationId);
+    refreshAllStationStatus();
   }
 
 })
