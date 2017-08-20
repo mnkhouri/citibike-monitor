@@ -2,8 +2,7 @@
 
 - Show nearest stations based on an entered address or geolocation
 - Config file for station ID storage
-- Autorefresh
-    - Store timestamp and change on each change
-    - Show change history
-    - Relative timestamps for changes
-    - Show/hide history
+- Store timestamp and change on each change
+- Show change history
+- Relative timestamps for changes
+- Show/hide history

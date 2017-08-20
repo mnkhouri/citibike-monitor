@@ -37,54 +37,93 @@ $(function () {
     })
     .catch(err => $('#add-a-station').text(`Error: ${err.message}`));
 
+  let activeStations = [];
+  function refreshStationStatus(stationId) {
+    gbfsClient.stationStatus(stationId)
+      .then(station => {
+      $('#' + getElementId(ID_STATION_BIKES_AVAIL, stationId)).text(station.num_bikes_available);
+    }).catch(err => {
+      $('#' + getElementId(ID_STATION_BIKES_AVAIL, stationId)).text(`Error! ${err.message}`);
+    })
+  }
+  function refreshAllStationStatus() {
+    for (let stationId of activeStations) {
+      refreshStationStatus(stationId);
+    }
+    $('#last-update').text(new Date().toLocaleTimeString());
+  }
 
-  const createStation = function(stationId) {
-    const idStation = `station-${stationId}`;
-    const idStationWrap = `station-wrap-${stationId}`;
-    const idStationName = `station-name-${stationId}`;
-    const idStationBikesAvail = `station-bikes-available-${stationId}`;
-    const idStationOverlay = `station-overlay-${stationId}`;
+  // Refresh stations every 10s
+  setInterval(refreshAllStationStatus, 10000);
 
+  // So this is why people use react / vue?
+  const ID_STATION = 'station';
+  const ID_STATION_WRAP = 'station-wrap';
+  const ID_STATION_NAME = 'station-name';
+  const ID_STATION_BIKES_AVAIL = 'station-bikes-available';
+  const ID_STATION_X_OVERLAY = 'station-overlay';
+  function getElementId(element, stationId) {
+    switch (element) {
+      default:
+      case undefined:
+        throw new Error(`Bad element ${element}`);
+      case ID_STATION:
+        return `station-${stationId}`;
+      case ID_STATION_WRAP:
+        return `station-wrap-${stationId}`;
+      case ID_STATION_NAME:
+        return `station-name-${stationId}`;
+      case ID_STATION_BIKES_AVAIL:
+        return `station-bikes-available-${stationId}`;
+      case ID_STATION_X_OVERLAY:
+        return `station-overlay-${stationId}`;
+    }
+  }
+
+  function createStation(stationId) {
     const newStationHtml =
-      `<div class="col-xs-12 col-sm-4 col-md-3 col-lg-2 station" id="${idStation}">
-        <div id="${idStationWrap}">
-          <span id="${idStationName}" class="station-name">Loading station name...</span>
+      `<div class="col-xs-12 col-sm-4 col-md-3 col-lg-2 station" id="${getElementId(ID_STATION, stationId)}">
+        <div id="${getElementId(ID_STATION_WRAP, stationId)}">
+          <span id="${getElementId(ID_STATION_NAME, stationId)}" class="station-name">Loading station name...</span>
           <br>
           Bikes available:
-          <span id="${idStationBikesAvail}" class="station-bikes-available">Loading bike count...</span>
+          <span id="${getElementId(ID_STATION_BIKES_AVAIL, stationId)}" class="station-bikes-available">Loading bike count...</span>
           <br><br>
         </div>
-        <div class="x-overlay" id="${idStationOverlay}" />
+        <div class="x-overlay" id="${getElementId(ID_STATION_X_OVERLAY, stationId)}" />
       </div>`;
-
+    // Add the station
     $('#station-row').append(newStationHtml);
-    $('#' + idStationOverlay).hide();
-
-    $('.station').click(function () { $(this).hide() })
-    $('#' + idStation).hover(
+    activeStations.push(stationId)
+    // Remove the station on click
+    $('.station').click(function () {
+      $(this).remove()
+      let index = activeStations.indexOf(stationId)
+      if (index > -1) { activeStations.splice(index, 1) };
+    })
+    // Hide the "X" overlay, show it on hover
+    $('#' + getElementId(ID_STATION_X_OVERLAY, stationId)).hide();
+    $('#' + getElementId(ID_STATION, stationId)).hover(
       function () {
-        $('#' + idStationWrap).hide();
-        $('#' + idStationOverlay).show();
+        $('#' + getElementId(ID_STATION_WRAP, stationId)).hide();
+        $('#' + getElementId(ID_STATION_X_OVERLAY, stationId)).show();
       },
       function () {
-        $('#' + idStationWrap).show();
-        $('#' + idStationOverlay).hide();
+        $('#' + getElementId(ID_STATION_WRAP, stationId)).show();
+        $('#' + getElementId(ID_STATION_X_OVERLAY, stationId)).hide();
       }
     )
 
+    // Get the station name
     gbfsClient.stationInfo(stationId)
-      .then(station => {
-      $('#' + idStationName).text(station.name);
+    .then(station => {
+      $('#' + getElementId(ID_STATION_NAME, stationId)).text(station.name);
     }).catch(err => {
-      $('#' + idStationName).text(`Error! ${err.message}`);
+      $('#' + getElementId(ID_STATION_NAME, stationId)).text(`Error! ${err.message}`);
     })
 
-    gbfsClient.stationStatus(stationId)
-      .then(station => {
-      $('#' + idStationBikesAvail).text(station.num_bikes_available);
-    }).catch(err => {
-      $('#' + idStationBikesAvail).text(`Error! ${err.message}`);
-    })
+    // Get the station status
+    refreshStationStatus(stationId);
   }
 
 })
