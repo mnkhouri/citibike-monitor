@@ -22,6 +22,6 @@
   "homepage": "https://github.com/mnkhouri/citibike-monitor#readme",
   "dependencies": {
     "electron": "^1.6.11",
-    "gbfs-client": "^0.6.0"
+    "gbfs-client": "^0.7.4"
   }
 }
